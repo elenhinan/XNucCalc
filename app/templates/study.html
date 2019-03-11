@@ -29,8 +29,8 @@
         <td>{{ wtf.form_field(form.vref_1H) }}
       </tr>
       <tr>
-        <td>{{ wtf.form_field(form.freq_31P) }}
-        <td>{{ wtf.form_field(form.vref_31P) }}
+        <td>{{ wtf.form_field(form.freq_X) }}
+        <td>{{ wtf.form_field(form.vref_X) }}
       </tr>
     </table>
     <table class="table">
@@ -99,7 +99,7 @@
       url: "/calc/vref",
       data: JSON.stringify(measurements),
       success: function (data) {
-        $("#vref_31P").val(Math.round(data.v_ref*10)/10);
+        $("#vref_X").val(Math.round(data.v_ref*10)/10);
         var graphdata = [
           {
             "id": "fit",
@@ -157,8 +157,8 @@
     $("#date").attr({type:"datetime", readonly:true})
     $("#freq_1H").attr({type:"number"})
     $("#vref_1H").attr({type:"number", step: 0.1})
-    $("#freq_31P").attr({type:"number"})
-    $("#vref_31P").attr({type:"number", step: 0.1, readonly:true})
+    $("#freq_X").attr({type:"number"})
+    $("#vref_X").attr({type:"number", step: 0.1, readonly:true})
     // initialize plot
     values_updated();
 

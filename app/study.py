@@ -8,8 +8,8 @@ class Study(db.Model):
     date     = db.Column(db.DateTime, nullable=False)
     freq_1H  = db.Column(db.Integer, nullable=True)
     vref_1H  = db.Column(db.Float, nullable=True)
-    freq_31P = db.Column(db.Integer, nullable=False)
-    vref_31P = db.Column(db.Float, nullable=False)
+    freq_X = db.Column(db.Integer, nullable=False)
+    vref_X = db.Column(db.Float, nullable=False)
     meas_arr = db.Column(db.String(80), nullable=False)
 
     def __init__(self, **kwargs):

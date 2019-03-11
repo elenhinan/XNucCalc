@@ -11,8 +11,8 @@ class StudyForm(FlaskForm):
     date     = DateTimeField('Study Date')
     freq_1H  = IntegerField('1H Frequency', [validators.Required("Please enter 1H frequency after shimming")])
     vref_1H  = FloatField('1H Vref', [validators.Required("Please enter 1H Voltage referance after shimming")])
-    freq_31P = IntegerField('31P Frequency', [validators.Required("Please enter 31P frequency after shimming")])
-    vref_31P = FloatField('31P Vref')
+    freq_X = IntegerField('X Frequency', [validators.Required("Please enter X frequency after shimming")])
+    vref_X = FloatField('X Vref')
     meas_arr = HiddenField('meas_arr')
 
 @app.route('/')
