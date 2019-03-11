@@ -1,13 +1,9 @@
 # XNucCalc
 
 Needed python 3.7 modules:
-    pip install numpy
-    pip install scipy
-    pip install flask
-    pip install flask-sqlalchemy
-    pip install flask-bootstrap
+    pip install numpy scipy
+    pip install flask flask-sqlalchemy flask-bootstrap flask_wtf
 
 Needed files in app/static
     jquery-3.3.1.min.js
     plotly-latest.min.js
-
