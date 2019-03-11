@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 # config
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/xnuccalc.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////data/xnuccalc.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 

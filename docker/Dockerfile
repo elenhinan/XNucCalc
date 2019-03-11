@@ -12,7 +12,7 @@ RUN \
   mkdir /app/app/static && \
   wget -nv https://code.jquery.com/jquery-3.3.1.min.js -P /app/app/static && \
   wget -nv https://cdn.plot.ly/plotly-latest.min.js -P /app/app/static  && \
-  echo "#! /usr/bin/env bash\n#cd /app\n#git pull" > /app/prestart.sh && \
+  echo "#! /usr/bin/env bash\ncd /app\ngit pull" > /app/prestart.sh && \
   chmod +x /app/prestart.sh /app/main.py
 
   VOLUME [ "/data" ]
