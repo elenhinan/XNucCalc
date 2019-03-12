@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %} {{ study.name }} {% endblock %}
+{% block title %} XNucCalc {% endblock %}
 
 {% block navbar %}
 <div class="navbar navbar-fixed-top">
@@ -12,33 +12,32 @@
 <div class="container border border-dark rounded" style="width: 800px;">
   <div class="row border-bottom bg-primary border-dark text-light">
     <div class="col">
-        <h2><center>{{ study.id }}</center></h2>
+        <h2><center>X Nucleus Coil Voltage Calibration</center></h2>
     </div>
   </div>
-
+  
   <form class="form" method="post">
     {{ form.hidden_tag() }}
     {{ wtf.form_errors(form, hiddens="only") }}
-    <table class="table">
-      <tr>
-        <td>{{ wtf.form_field(form.name) }}</td>
-        <td>{{ wtf.form_field(form.date) }}</td>
-      </tr>
-      <tr>
-        <td>{{ wtf.form_field(form.freq_1H) }}
-        <td>{{ wtf.form_field(form.vref_1H) }}
-      </tr>
-      <tr>
-        <td>{{ wtf.form_field(form.freq_X) }}
-        <td>{{ wtf.form_field(form.vref_X) }}
-      </tr>
-    </table>
-    <table class="table">
+    <div class="row">
+      <div class="col">{{ wtf.form_field(form.name) }}</div>
+      <div class="col">{{ wtf.form_field(form.date) }}</div>
+    </div>
+    <div class="row">
+      <div class="col">{{ wtf.form_field(form.freq_1H) }}</div>
+      <div class="col">{{ wtf.form_field(form.vref_1H) }}</div>
+    </div>
+    <div class="row">
+      <div class="col">{{ wtf.form_field(form.freq_X) }}</div>
+      <div class="col">{{ wtf.form_field(form.vref_X) }}</div>
+    </div>
+  
+    <table class="table table-sm">
       <thead>
         <tr>
-          <th scope="col">#</th>
+          <th class="text-center" scope="col"><small>#</small></th>
           {% for v  in study.get_measurements()[0] %}
-            <th align="right" scope="col">[{{ loop.index }}]</th>
+            <th class="text-center" scope="col"><small>[{{ loop.index }}]</small></th>
           {% endfor %}
         </tr>
       </thead>
@@ -46,27 +45,27 @@
         <tr>
           <th scope="row">Voltage</th>
           {% for v in study.get_measurements()[0] %}
-          <td align="right">
+          <td>
             <div class="input number">
-            <input type="number" class="form-control" id="input_v{{ loop.index }}" onClick="this.select();" value="{{ v }}">
+            <input type="number" class="form-control form-control-sm" id="input_v{{ loop.index }}" onClick="this.select();" value="{{ v }}">
             </div>
           </td>
           {% endfor %}
         </tr>
-        <tr align="right">
+        <tr>
           <th scope="row">Amplitude</th>
           {% for a in study.get_measurements()[1] %}
           <td>
             <div class="input number">
-            <input type="number" class="form-control" id="input_a{{ loop.index }}" onClick="this.select();" value="{{ a }}">
+            <input type="number" class="form-control form-control-sm" id="input_a{{ loop.index }}" onClick="this.select();" value="{{ a }}">
             </div>
           </td>
           {% endfor %}
         </tr>
       </tbody>
     </table>
-    <input class="btn btn-primary" type="submit" value="Save">
-    <a href="/study?id=new" class="btn btn-primary">New</a>
+    <input class="btn btn-sm btn-primary" type="submit" value="Save">
+    <a href="/study?id=new" class="btn btn-sm btn-primary">New</a>
     </form>
   <div class="graph" id="chart" style="margin: auto; "></div>
 </div>

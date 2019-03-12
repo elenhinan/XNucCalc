@@ -3,7 +3,7 @@ FROM tiangolo/meinheld-gunicorn-flask:python3.7
 
 # Install dependencies and tools, last libs are for freeview
 RUN \
-  pip install flask_bootstrap flask_sqlalchemy flask_wtf numpy scipy
+  pip install flask_bootstrap4 flask_sqlalchemy flask_wtf numpy scipy
 
 # Clone newest version of XNucCalc and prepare for docker
 RUN \
