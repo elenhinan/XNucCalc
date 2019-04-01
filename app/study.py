@@ -15,7 +15,7 @@ class Study(db.Model):
     def __init__(self, **kwargs):
         super(Study, self,).__init__(**kwargs)
         self.date = datetime.now()
-        self.set_measurements([[40, 100, 140, 180, 220], [0, 0, 0, 0, 0]])
+        self.set_measurements([[60, 100, 140, 180, 220], [0, 0, 0, 0, 0]])
 
     def set_measurements(self,measurements):
         self.meas_arr = json.dumps(measurements)

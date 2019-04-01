@@ -3,3 +3,4 @@ __pycache__/*
 app/static/*
 *.db
 workspace.code-workspace
+docker/build.sh

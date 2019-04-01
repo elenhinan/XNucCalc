@@ -3,17 +3,22 @@ import numpy as np
 from scipy.optimize import curve_fit
 
 def calc_vref(voltage, amplitude):
-    #v = np.array([10, 40, 70, 100, 130, 160, 190, 220])
-    #a = np.array([334, 1297, 2168, 2819, 3222, 3379, 3215, 2768])
-    v = np.array(voltage)
-    a = np.array(amplitude)
+    # mask out values not greater than 0
+    mask = a > 0
 
-    p0 = [150,3000]
+    # only do curve fitting if more than two valid points
+    if(np.sum(mask) >= 2):
+        v = v[mask]
+        a = a[mask]
 
-    flip_angle = lambda x, v_ref, a_max: np.sin(x/v_ref*np.pi/2)*a_max
-    v_ref, a_max = curve_fit(flip_angle, v, a, p0)[0]
-    
-    fit_v = np.arange(0, 250, 5)
-    fit_a = flip_angle(fit_v, v_ref, a_max)
+        p0 = [150,120]
 
-    return v_ref, fit_v.tolist(), fit_a.tolist()
+        flip_angle = lambda x, v_ref, a_max: np.sin(x/v_ref*np.pi/2)*a_max
+        v_ref, a_max = curve_fit(flip_angle, v, a, p0)[0]
+        fit_v = np.arange(0, 250, 5)
+        fit_a = flip_angle(fit_v, v_ref, a_max)
+        return v_ref, fit_v.tolist(), fit_a.tolist()
+
+    # else return flat output curve and no v_ref value
+    else:
+        return 'NaN', [0,voltage[-1]], [0,0]

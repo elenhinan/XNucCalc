@@ -90,8 +90,9 @@
 
   function values_updated() {
     var measurements = get_measurements();
-
+    var a_err = measurements.a.map(function(elem) { return Math.round(Math.sqrt(elem)*10)/10; });
     $("#meas_arr").val(JSON.stringify([measurements.v, measurements.a]))
+    
     $.ajax({
       type: "POST",
       contentType: "application/json; charset=utf-8",
@@ -101,23 +102,28 @@
         $("#vref_X").val(Math.round(data.v_ref*10)/10);
         var graphdata = [
           {
-            "id": "fit",
-            "name": "best fit",
-            "x": data.v,
-            "y": data.a,
-            "type": "scatter"
+            id: "fit",
+            name: "best fit",
+            x: data.v,
+            y: data.a,
+            type: "scatter"
           },
           {
-            "id": "meas",
-            "name" : "measurement",
-            "mode": "markers",
-            "marker": {
-              "size": 10,
-              "color": "rgb(255,40,40)"
+            id: "meas",
+            name : "measurement",
+            mode: "markers",
+            marker: {
+              size: 10,
+              color: "rgb(255,40,40)"
             },
-            "x": measurements.v,
-            "y": measurements.a,
-            "type": "scatter"
+            x: measurements.v,
+            y: measurements.a,
+            error_y: {
+              type:    'data',
+              array:   a_err,
+              visible: true
+            },
+            type: "scatter"
           }
         ]
         var layout = {
