@@ -1,0 +1,41 @@
+<div class="modal fade" id="wizardModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="js-title-step"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row hide" data-step="1" data-title="Shimming">
+                    <div class="jumbotron">This is the first step!</div>
+                </div>
+                <div class="row hide" data-step="2" data-title="1H Frequency">
+                    <div class="jumbotron">This is the second step!</div>
+                </div>
+                <div class="row hide" data-step="3" data-title="1H coil Vref">
+                    <div class="jumbotron">This is the second step!</div>
+                </div>
+                <div class="row hide" data-step="4" data-title="X-nucleus Frquency">
+                    <div class="jumbotron">This is the last step!</div>
+                </div>
+                <div class="row hide" data-step="5" data-title="X-nucleus coil Vref">
+                    <div class="jumbotron">This is the last step!</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default js-btn-step pull-left" data-orientation="cancel" data-dismiss="modal"></button>
+                <button type="button" class="btn btn-warning js-btn-step" data-orientation="previous"></button>
+                <button type="button" class="btn btn-success js-btn-step" data-orientation="next"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#wizardModal">Wizard</button>
+
+<script type="text/javascript" src="{{ url_for('static', filename = 'modal-steps.min.js') }}"></script>
+<script>
+$('#wizardModal').modalSteps();
+</script>
