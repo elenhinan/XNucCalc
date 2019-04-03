@@ -8,7 +8,7 @@ def calc_vref(voltage, amplitude):
     v = np.array(voltage, dtype=np.float)
     
     # mask out values not greater than 0
-    mask = amplitude > 0
+    mask = a > 0
 
     # only do curve fitting if more than two valid points
     if(np.sum(mask) >= 2):
