@@ -3,19 +3,18 @@ from app import app, db
 from app.calc_vref import calc_vref
 from flask import render_template, request, jsonify, redirect
 from app.study import Study
-from wtforms import StringField, DateTimeField, FloatField, IntegerField, validators, HiddenField, FieldList
+from wtforms import StringField, DateTimeField, DecimalField, IntegerField, validators, HiddenField, FieldList
 from flask_wtf import FlaskForm
-
 
 class StudyForm(FlaskForm):
     name     = StringField('Name', [validators.Required("Please enter study name")])
     date     = DateTimeField('Study Date')
     freq_1H  = IntegerField('1H Frequency', [validators.Required("Please enter 1H frequency after shimming")])
-    vref_1H  = FloatField('1H Vref', [validators.Required("Please enter 1H Voltage referance after shimming")])
+    vref_1H  = DecimalField('1H Vref', [validators.Required("Please enter 1H Voltage referance after shimming")], places=1)
     freq_X   = IntegerField('X Frequency', [validators.Required("Please enter X frequency after shimming")])
-    vref_X   = FloatField('X Vref')
+    vref_X   = DecimalField('X Vref', places=1)
     meas_arr = HiddenField('meas_arr')
-    #deleted  = HiddenFiel('deleted')
+    #deleted  = HiddenField('deleted')
 
 
 @app.route('/')
