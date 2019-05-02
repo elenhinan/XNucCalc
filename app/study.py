@@ -11,10 +11,12 @@ class Study(db.Model):
     freq_X = db.Column(db.Integer, nullable=False)
     vref_X = db.Column(db.Float, nullable=False)
     meas_arr = db.Column(db.String(80), nullable=False)
+    #deleted = db.Column(db.Boolean, nullable=False)
 
     def __init__(self, **kwargs):
         super(Study, self,).__init__(**kwargs)
         self.date = datetime.now()
+        #self.deleted = False
         self.set_measurements([[60, 100, 140, 180, 220], [0, 0, 0, 0, 0]])
 
     def set_measurements(self,measurements):

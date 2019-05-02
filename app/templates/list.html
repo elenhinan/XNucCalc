@@ -1,0 +1,52 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} XNucCalc {% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container border border-dark rounded" style="width: 800px;">
+  <div class="row border-bottom bg-primary border-dark text-light">
+    <div class="col">
+      <h2><center>X Nucleus Coil Voltage Database</center></h2>
+    </div>
+  </div>
+  
+  <form class="form" method="post">
+    <table class="table table-sm table-striped">
+      <thead>
+        <th class="text-center" scope="col"></th>
+        <th class="text-center" scope="col">Name</th>
+        <th class="text-center" scope="col">Date</th>
+        <th class="text-center" scope="col">H freq</th>
+        <th class="text-center" scope="col">X freq</th>
+        <th class="text-center" scope="col">H Vref</th>
+        <th class="text-center" scope="col">X Vref</th>
+      </thead>
+      <tbody>
+      {% for s in studies %}
+        <tr>
+          <td>
+            <div class="checkbox">
+              <input type="checkbox" name="selected" value="{{ s.id }}">
+            </div>
+          </td>
+          <td class="text-center" scope="col"><small><a href="study?id={{ s.id }}">{{ s.name }}</a></small></td>
+          <td class="text-center" scope="col"><small>{{ s.date }}</small></td>
+          <td class="text-center" scope="col"><small>{{ s.freq_1H }}</small></td>
+          <td class="text-center" scope="col"><small>{{ s.freq_X }}</small></td>
+          <td class="text-center" scope="col"><small>{{ s.vref_1H }}</small></td>
+          <td class="text-center" scope="col"><small>{{ s.vref_X }}</small></td>
+        </tr>
+      {% endfor %}
+      <tbody>
+    </table>
+    <input class="btn btn-sm btn-primary" type="submit" value="Delete">
+  </form>
+</div>
+
+{% endblock %}
