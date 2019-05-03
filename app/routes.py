@@ -82,7 +82,7 @@ def get_trend():
     data = request.get_json()
     selected = data['selected']
     if len(selected):
-        results = db.session.query(Study.vref_1H, Study.vref_X).filter(Study.id.in_(selected)).all()
-        transposed = [*zip(*results)]
-        return jsonify(transposed)
+        results = db.session.query(Study.id, Study.name, Study.vref_1H, Study.vref_X).filter(Study.id.in_(selected)).all()
+        response = dict(zip(results[0]._asdict().keys(),[*zip(*results)]))
+        return jsonify(response)
     return ""
