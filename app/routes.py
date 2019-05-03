@@ -6,13 +6,19 @@ from app.study import Study
 from wtforms import StringField, DateTimeField, DecimalField, IntegerField, validators, HiddenField, FieldList
 from flask_wtf import FlaskForm
 
+class FlexibleDecimalField(DecimalField):
+    def process_formdata(self, valuelist):
+        if valuelist:
+            valuelist[0] = valuelist[0].replace(",", ".")
+        return super(FlexibleDecimalField, self).process_formdata(valuelist)
+
 class StudyForm(FlaskForm):
     name     = StringField('Name', [validators.Required("Please enter study name")])
     date     = DateTimeField('Study Date')
     freq_1H  = IntegerField('1H Frequency', [validators.Required("Please enter 1H frequency after shimming")])
-    vref_1H  = DecimalField('1H Vref', [validators.Required("Please enter 1H Voltage referance after shimming")], places=1)
+    vref_1H  = FlexibleDecimalField('1H Vref', [validators.Required("Please enter 1H Voltage referance after shimming")], places=1)
     freq_X   = IntegerField('X Frequency', [validators.Required("Please enter X frequency after shimming")])
-    vref_X   = DecimalField('X Vref', places=1)
+    vref_X   = FlexibleDecimalField('X Vref', places=1)
     meas_arr = HiddenField('meas_arr')
     #deleted  = HiddenField('deleted')
 
@@ -62,10 +68,21 @@ def show_study():
     return render_template('study.html', study=study, form=form)
 
 
-@app.route('/calc/vref', methods=('GET', 'POST'))
+@app.route('/calc/vref', methods=(['POST']))
 def get_vref():
     data = request.get_json()
     v = data['v']
     a = data['a']
     v_ref, fit_v, fit_a = calc_vref(v,a)
     return jsonify({'v_ref':v_ref, 'v': fit_v, 'a': fit_a })
+
+import sys
+@app.route('/calc/trend', methods=(['POST']))
+def get_trend():
+    data = request.get_json()
+    selected = data['selected']
+    if len(selected):
+        results = db.session.query(Study.vref_1H, Study.vref_X).filter(Study.id.in_(selected)).all()
+        transposed = [*zip(*results)]
+        return jsonify(transposed)
+    return ""

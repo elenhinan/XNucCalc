@@ -19,13 +19,13 @@
   <form class="form" method="post">
     <table class="table table-sm table-striped">
       <thead>
-        <th class="text-center" scope="col"></th>
-        <th class="text-center" scope="col">Name</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
         <th class="text-center" scope="col">Date</th>
-        <th class="text-center" scope="col">H freq</th>
-        <th class="text-center" scope="col">X freq</th>
-        <th class="text-center" scope="col">H Vref</th>
-        <th class="text-center" scope="col">X Vref</th>
+        <th class="text-right" scope="col">H freq</th>
+        <th class="text-right" scope="col">X freq</th>
+        <th class="text-right" scope="col">H Vref</th>
+        <th class="text-right" scope="col">X Vref</th>
       </thead>
       <tbody>
       {% for s in studies %}
@@ -35,18 +35,84 @@
               <input type="checkbox" name="selected" value="{{ s.id }}">
             </div>
           </td>
-          <td class="text-center" scope="col"><small><a href="study?id={{ s.id }}">{{ s.name }}</a></small></td>
-          <td class="text-center" scope="col"><small>{{ s.date }}</small></td>
-          <td class="text-center" scope="col"><small>{{ s.freq_1H }}</small></td>
-          <td class="text-center" scope="col"><small>{{ s.freq_X }}</small></td>
-          <td class="text-center" scope="col"><small>{{ s.vref_1H }}</small></td>
-          <td class="text-center" scope="col"><small>{{ s.vref_X }}</small></td>
+          <td class="text-monospace" scope="col"><small><a href="study?id={{ s.id }}">{{ s.name }}</a></small></td>
+          <td class="text-center text-monospace" scope="col"><small>{{ s.date }}</small></td>
+          <td class="text-right text-monospace" scope="col"><small>{{ s.freq_1H }}</small></td>
+          <td class="text-right text-monospace" scope="col"><small>{{ s.freq_X }}</small></td>
+          <td class="text-right text-monospace" scope="col"><small>{{ s.vref_1H }}</small></td>
+          <td class="text-right text-monospace" scope="col"><small>{{ s.vref_X }}</small></td>
         </tr>
       {% endfor %}
       <tbody>
     </table>
     <input class="btn btn-sm btn-primary" type="submit" value="Delete">
   </form>
+  <div class="graph" id="chart" style="margin: auto; "></div>
 </div>
+
+<script type="text/javascript" src="{{ url_for('static', filename = 'plotly-latest.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'jquery-3.3.1.min.js') }}"></script>
+
+<script>
+  var plot_animate = false;
+  
+  function selection_change() {
+    var selected = $('input[name="selected"]:checked').map(function(){ return $(this).val();}).get();
+    var postdata = {"selected": selected};
+
+    $.ajax({
+      type: "POST",
+      contentType: "application/json; charset=utf-8",
+      url: "/calc/trend",
+      data: JSON.stringify(postdata),
+      success: function (data) {
+        console.log(data);
+        var graphdata = [
+          {
+            id: "meas",
+            name : "measurement",
+            mode: "markers",
+            marker: {
+              size: 10,
+              color: "rgb(255,40,40)"
+            },
+            x: data[0],
+            y: data[1],
+            type: "scatter"
+          }
+        ]
+        var layout = {
+          showlegend: false,
+          title: 'PlotPlot',
+          xaxis: {
+            title: 'V_ref 1H',
+            showgrid: false
+          },
+          yaxis: {
+            title: 'V_ref X'
+          }
+        };
+        if (!plot_animate) {
+          plot_animate = true;
+          Plotly.plot('chart',graphdata, layout);
+        } else {
+          var animation = { transition: { duration: 500, easing: 'cubic-in-out' }, frame: { duration: 500 }};
+          Plotly.react('chart',graphdata, animation);
+        }
+      },
+      dataType: "json"
+    });
+  }
+
+  $(document).ready(function() {
+    // on changing measurement values, update plot
+    $('input[name="selected"]').each(function() {
+      $(this).change(selection_change);
+    });
+    // initialize plot
+    //selection_change();
+  })
+</script>
+
 
 {% endblock %}
