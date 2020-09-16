@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
 from scipy.optimize import curve_fit
+from scipy.stats import linregress
 
 def calc_vref(voltage, amplitude):
     #convert to numpy arrays
@@ -27,3 +28,7 @@ def calc_vref(voltage, amplitude):
     # else return flat output curve and no v_ref value
     else:
         return 'NaN', [0,voltage[-1]], [0,0]
+
+def calc_factor(Vh, Vx):
+    slope, intercept, r, p, std = linregress(Vh, Vx)
+    return {'slope':slope, 'intercept':intercept, 'r':r, 'std':std}

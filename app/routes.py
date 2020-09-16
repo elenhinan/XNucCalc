@@ -1,6 +1,6 @@
 #from app import app
 from app import app, db
-from app.calc_vref import calc_vref
+from app.calc import *
 from flask import render_template, request, jsonify, redirect
 from app.study import Study
 from wtforms import StringField, DateTimeField, DecimalField, IntegerField, validators, HiddenField, FieldList
@@ -84,5 +84,6 @@ def get_trend():
     if len(selected):
         results = db.session.query(Study.id, Study.name, Study.vref_1H, Study.vref_X).filter(Study.id.in_(selected)).all()
         response = dict(zip(results[0]._asdict().keys(),[*zip(*results)]))
+        response.append(calc_factor(response['vref_1H'], response['vref_X'])) # calc regression
         return jsonify(response)
     return ""
