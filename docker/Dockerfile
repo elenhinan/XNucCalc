@@ -9,7 +9,7 @@ RUN \
 RUN \
   rm -rf /app/* && \
   git clone https://github.com/elenhinan/XNucCalc.git /app && \
-  mkdir /app/app/static && \
+  mkdir -p /app/app/static && \
   wget -nv https://code.jquery.com/jquery-3.3.1.min.js -P /app/app/static && \
   wget -nv https://cdn.plot.ly/plotly-latest.min.js -P /app/app/static  && \
   echo "#! /usr/bin/env bash\ncd /app\ngit pull" > /app/prestart.sh && \
