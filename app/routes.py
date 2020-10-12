@@ -22,26 +22,7 @@ class StudyForm(FlaskForm):
     meas_arr = HiddenField('meas_arr')
     #deleted  = HiddenField('deleted')
 
-
 @app.route('/')
-def index():
-    return redirect(request.base_url + "study?id=new")
-
-
-@app.route('/list', methods=('GET', 'POST'))
-def list_studies():
-    # if get
-    if request.method == 'POST':
-        selected = request.form.getlist("selected")
-        for study_id in selected:
-            study = Study.query.get(int(study_id))
-            db.session.delete(study)
-        db.session.commit()
-    
-    studies = Study.query.order_by(Study.date).all()
-    return render_template('list.html', studies=studies)
-
-
 @app.route('/study', methods=('GET', 'POST'))
 def show_study():
     study_id = request.args.get('id')
@@ -67,6 +48,18 @@ def show_study():
 
     return render_template('study.html', study=study, form=form)
 
+@app.route('/list', methods=('GET', 'POST'))
+def list_studies():
+    # if get
+    if request.method == 'POST':
+        selected = request.form.getlist("selected")
+        for study_id in selected:
+            study = Study.query.get(int(study_id))
+            db.session.delete(study)
+        db.session.commit()
+    
+    studies = Study.query.order_by(Study.date).all()
+    return render_template('list.html', studies=studies)
 
 @app.route('/calc/vref', methods=(['POST']))
 def get_vref():
