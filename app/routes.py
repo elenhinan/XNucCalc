@@ -23,6 +23,7 @@ class StudyForm(FlaskForm):
     #deleted  = HiddenField('deleted')
 
 @app.route('/')
+def root():
     return redirect('/study?id=new')
 
 @app.route('/study', methods=('GET', 'POST'))
