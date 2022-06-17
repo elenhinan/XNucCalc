@@ -78,7 +78,15 @@
             x: data.vref_1H,
             y: data.vref_X,
             text: data.name,
-            type: "scatter"
+            type: "scatter",
+          },
+          {
+            id: "fit",
+            name : "linear fit",
+            mode: "line",
+            x: data.vref_1H,
+            y: data.bestfit,
+            type: "scatter",
           }
         ]
         var layout = {

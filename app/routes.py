@@ -78,8 +78,9 @@ def get_trend():
     data = request.get_json()
     selected = data['selected']
     if len(selected):
-        results = db.session.query(Study.id, Study.name, Study.vref_1H, Study.vref_X).filter(Study.id.in_(selected)).all()
+        results = db.session.query(Study.id, Study.name, Study.vref_1H, Study.vref_X).filter(Study.id.in_(selected)).order_by(Study.vref_X).all()
         response = dict(zip(results[0]._asdict().keys(),[*zip(*results)]))
-        response.append(calc_factor(response['vref_1H'], response['vref_X'])) # calc regression
+        best_fit = calc_factor(response['vref_1H'], response['vref_X']) # calc regression
+        response['bestfit'] = [round(best_fit['slope'] * h + best_fit['intercept'], 1) for h in response['vref_1H']]
         return jsonify(response)
     return ""
