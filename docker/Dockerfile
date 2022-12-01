@@ -1,10 +1,6 @@
 # based on uwsgi-nginx-flask
 FROM tiangolo/uwsgi-nginx-flask:python3.7
 
-# Install dependencies and tools, last libs are for freeview
-RUN \
-  pip install flask_bootstrap4 flask_sqlalchemy flask_wtf numpy scipy
-
 RUN \
   apt-get update && \
   apt-get install -y ca-certificates && \
@@ -19,6 +15,10 @@ RUN \
   echo "#! /usr/bin/env bash\ncd /app\ngit pull" > /app/prestart.sh && \
   echo "[uwsgi]\nmodule = app\ncallable=app" > /app/uwsgi.ini && \
   chmod +x /app/prestart.sh /app/main.py
+
+# Install dependencies and tools
+RUN \
+  cd /app && pip install -r requirements.txt
 
 ENV STATIC_PATH /app/app/static
 
